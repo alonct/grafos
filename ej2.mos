@@ -1,0 +1,52 @@
+model alonsoej2
+
+uses "mmxprs", "mmsystem", "mmive", "mmetc"
+declarations
+	n = 4
+	rango=1..n
+	x : array(rango, rango) of mpvar
+	a: array(rango,rango) of integer
+	objetivo : linctr
+end-declarations
+
+	forall(i,j in rango) x(i,j) is_binary
+	
+	forall(j in rango) a(1,j):= j-1
+	a(2,1):=4
+	a(2,2):=3
+	a(2,3):=1
+	a(2,4):=0
+	
+	a(3,1):=1
+	a(3,2):=5
+	a(3,3):=2
+	a(3,4):=9
+	
+	a(4,1):=8
+	a(4,2):=2
+	a(4,3):=3
+	a(4,4):=1
+	
+	forall(i,j in rango) do
+		sum(k in rango)x(i,k)=1
+		sum(k in rango)x(k,j)=1
+	end-do
+	
+	objetivo := sum(i,j in rango)x(i,j)*a(i,j)
+	
+	maximize(objetivo)
+	
+	forall(i in rango) do
+		forall(j in rango) write(getsol(a(i,j)))
+		writeln('')
+	end-do
+	
+	writeln("")
+	
+	forall(i in rango) do
+		forall(j in rango) write(getsol(x(i,j)))
+		writeln('')
+	end-do
+	writeln('Y el valor objetivo es: ', getobjval)
+	!writeln('La solución es (',getsol(x(1,1)),',',getsol(x(2,1)),',',getsol(x(3,1)),')')
+end-model

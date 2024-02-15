@@ -1,0 +1,48 @@
+model alonsopetersen
+
+uses "mmxprs", "mmsystem", "mmive", "mmetc"
+declarations
+	c = 5
+	n = 10
+	x : array(1..n, 1..c) of mpvar
+	y : array(1..c) of mpvar
+	a : array(1..n, 1..n) of integer
+	objetivo : linctr
+end-declarations
+
+	diskdata(ETC_IN,'adyacencia.txt',a)
+	
+	writeln('Matriz de adyacencia a: ')
+	forall(i in 1..n)do
+		forall(j in 1..n) write(a(i,j),' ')
+		writeln('')
+		end-do
+
+	
+	forall(k in 1..c)do
+		y(k) is_binary
+		forall(i in 1..n) x(i,k)is_binary
+	end-do
+	
+	forall(i in 1..n) sum(k in 1..c) x(i,k)=1
+	
+	!forall(i,j in 1..n | a(i,j)=1,k in 1..c) x(i,k)+x(j,k)<=1
+	!forall(i in 1..n,k in 1..c) x(i,k) <= y(k)
+	
+	!Podemos cambiar estas restricciones por la siguiente
+	
+	forall(i,j in 1..n | a(i,j)=1,k in 1..c) x(i,k)+x(j,k)<=y(k)
+	
+	objetivo := sum(k in 1..c)y(k)
+	minimize(objetivo)
+	
+	writeln('')
+	writeln('Matriz solucion')
+	forall(i in 1..n)do
+		forall(k in 1..c) write(getsol(x(i,k)),' ')
+		writeln('')
+		end-do
+	
+	writeln('Y el valor objetivo es: ', getobjval)
+
+end-model

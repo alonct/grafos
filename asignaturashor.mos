@@ -1,0 +1,55 @@
+!@encoding CP1252
+model horario_alonso
+uses "mmxprs", "mmsystem", "mmive", "mmetc"
+declarations
+	n = 6
+	x : array(1..n, 1..n) of mpvar
+	y : array(1..n) of mpvar
+	a : array(1..n, 1..n) of integer
+	objetivo : linctr
+end-declarations
+
+	diskdata(ETC_IN,'coincidentes.txt',a)
+	
+	writeln('Matriz de coincidentes a: ')
+	forall(i in 1..n)do
+		forall(j in 1..n) write(a(i,j),' ')
+		writeln('')
+	end-do
+	
+	forall(i in 1..n)do
+		y(i) is_binary
+		forall(j in 1..n)do
+			x(i,j)is_binary
+			y(i)>=x(i,j)
+		end-do
+	end-do
+	
+	forall(i in 1..n) do
+		forall(j in i..n) do
+			if a(i,j)=1 then
+				forall(k in 1..n) x(k,i)+x(k,j)<=1
+			end-if
+		end-do
+	end-do
+	
+	forall(j in 1..n) do
+		sum(i in 1..n) x(i,j)=1
+	end-do
+
+
+	
+	
+	objetivo := sum(i in 1..n)y(i)
+	minimize(objetivo)
+	
+	writeln('')
+	writeln('Matriz solucion')
+	forall(i in 1..n)do
+		forall(k in 1..n) write(getsol(x(i,k)),' ')
+		writeln('')
+		end-do
+	
+	writeln('Y el valor objetivo es: ', getobjval)
+
+end-model

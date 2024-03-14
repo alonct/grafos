@@ -1,0 +1,56 @@
+model alonsoCMC
+
+uses "mmxprs", "mmsystem", "mmive", "mmetc"
+declarations
+	n = 7
+	
+	!Buscaremos el camino más corto entre los nodos S y T, que aquí están denominados como los nodos 6 y 7 respectivamente.
+	S = 6
+	T = 7
+	
+	x : array(1..n, 1..n) of mpvar !aristas que vamos a usar
+	a : array(1..n, 1..n) of integer !Matriz de adyacencia
+	p : array(1..n, 1..n) of integer !Pesos de aristas
+	objetivo : linctr
+end-declarations
+
+	diskdata(ETC_IN,'adyacencia_cmc.txt',a)
+	diskdata(ETC_IN,'pesos_cmc.txt',p)
+	
+	writeln('Matriz de adyacencia a: ')
+	forall(i in 1..n)do
+		forall(j in 1..n) write(a(i,j),' ')
+		writeln('')
+	end-do
+	
+	writeln('Matriz de pesos p: ')
+	forall(i in 1..n)do
+		forall(j in 1..n) write(p(i,j),' ')
+		writeln('')
+		end-do
+
+	forall(i,j in 1..n)do
+		x(i,j)is_binary
+		x(i,j) <= a(i,j)
+	end-do
+	
+	sum(k in 1..n)x(S,k) = 1
+	sum(k in 1..n)x(k,T) = 1
+	
+	forall(k in 1..n | k<>S and k<>T)do
+		sum(i in 1..n)x(i,k) = sum(j in 1..n)x(k,j)
+	end-do
+	
+	objetivo := sum(i in 1..n)(sum(j in i..n)x(i,j)*p(i,j))
+	minimize(objetivo)
+	
+	writeln('')
+	writeln('Matriz solucion')
+	forall(i in 1..n)do
+		forall(j in 1..n)write(getsol(x(i,j)),' ')
+		writeln('')
+	end-do
+	
+	writeln('Y el valor objetivo es: ', getobjval)
+
+end-model

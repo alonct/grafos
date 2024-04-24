@@ -1,0 +1,64 @@
+model horarios
+
+uses "mmxprs", "mmsystem", "mmetc"
+declarations
+	f = 106 !Alumnos
+	c = 10 !Asignaturas
+	b = 3 !Bandas
+	minal = 10 !Mínimo de alumnos por clase
+	maxal = 35 !Máximo de alumnos por clase
+	maxband = 7 !Máximo de asignaturas por banda
+	h : array(1..c) of integer !profesores por asignatura
+	x : array(1..f, 1..c, 1..b) of mpvar ! Será 1 si el alumno i da la asignatura j en la banda k. En otro caso será 0.
+	y : array(1..c, 1..b) of mpvar ! Será 1 si se se imparte la optativa j en la banda k.
+	a : array(1..f, 1..c) of integer ! Matriz con las preferencias de los alumnos
+	objetivo : linctr
+end-declarations
+
+	!Introducimos los datos de preferencias de los alumnos
+	diskdata(ETC_IN,'preferenciasalum.txt',a)
+	
+	writeln('Matriz de preferencia: ')
+	forall(i in 1..f)do
+		forall(j in 1..c) write(a(i,j),' ')
+		writeln('')
+		end-do
+	
+	!Introducimos los datos sobre disponibilidad de profesores	
+	diskdata(ETC_IN,'profes.txt',h)
+	
+	writeln('Disponibilidad Horaria: ')
+	forall(j in 1..c) write(h(j), ' ')
+
+	!Declaración de tipo de variables
+	forall(j in 1..c, k in 1..b)do
+		y(j,k) is_binary
+		forall(i in 1..f) x(i,j,k)is_binary
+	end-do
+	
+	!Restricción 1: Todos los alumnos tienen que tener asignados b(números de bandas) optativas
+	forall(i in 1..f) sum(j in 1..c, k in 1..b)x(i,j,k)=b
+	
+	!Restricción 2: Las b optativas deben ser diferentes
+	forall(i in 1..f, j in 1..c) sum(k in 1..b)x(i,j,k) <= 1
+	
+	!Restricción 3: Si un alumno da una asignatura en alguna banda, entonces se tiene que impartir la asignatura en esa banda
+	forall(i in 1..f, j in 1..c, k in 1..b) x(i,j,k) <= y(j,k)
+	
+	!Restricción 4: Mínimo de alumnos que dan una asignatura en una banda si esta se imparte:
+	forall(j in 1..c, k in 1..b) minal*y(j,k) - sum(i in 1..f)x(i,j,k) <= 0
+	
+	!Restricción 5: Máximo de alumnos que dan una asignatura en una banda si esta se imparte:
+	forall(j in 1..c, k in 1..b) maxal*h(j)*y(j,k) - sum(i in 1..f)x(i,j,k) >= 0
+	
+	!Restricción 6: Número máximo de asignaturas por banda:
+	forall(k in 1..b) sum(j in 1..c)y(j,k) <= maxband
+	
+	
+	
+
+	objetivo := sum(i in 1..f, j in 1..c, k in 1..b)a(i,j)*x(i,j,k)
+	maximise(objetivo)
+	
+
+end-model

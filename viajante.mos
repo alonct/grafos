@@ -1,0 +1,36 @@
+model alonsoViajante
+
+uses "mmxprs", "mmsystem", "mmive", "mmetc"
+declarations
+	n = 7 !Número de nodos
+	x : array(1..n, 1..n) of mpvar !aristas que vamos a usar
+	!a : array(1..n, 1..n) of integer !Matriz de adyacencia
+	l : array(1..n, 1..n) of integer !Pesos de aristas
+	objetivo : linctr
+end-declarations
+	!Restricciones:
+		!1. Hay que salir de toda ciudad y entrar en toda ciudad:
+		sum(i in 1..n, j in 1..n)x(i,j) = 1
+		sum(j in 1..n, i in 1..n)x(i,j) = 1
+		
+		!Evitar ciclos:
+		forall(z in 1..n) do
+			S:={z}
+			sum(i,j in 1..n|i in S and not (j in S)) x(i,j)>= 1
+		end-do
+		forall(z,b in 1..n| z<>b) do
+			S:={z,b}
+			sum(i,j in 1..n|i in S and not (j in S)) x(i,j)>= 1
+		end-do
+		forall(z,b,c in 1..n|z<>b and z<>c and b<>c) do
+			S:={z,b,c}
+			sum(i,j in 1..n|i in S and not (j in S)) x(i,j)>= 1
+		end-do
+		
+		!3. Tipos de Variables:
+		forall(i,j in 1..n) x(i,j) is_binary
+
+	
+	objetivo:= sum(i in 1..n, j in i..n)x(i,j)*l(i,j)
+	minimize(objetivo)
+end-model

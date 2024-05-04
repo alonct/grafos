@@ -2,33 +2,43 @@ model horarios
 
 uses "mmxprs", "mmsystem", "mmetc"
 declarations
-	f = 106 !Alumnos
+	f = 160 !Alumnos
 	c = 10 !Asignaturas
 	b = 3 !Bandas
-	minal = 10 !Mínimo de alumnos por clase
-	maxal = 35 !Máximo de alumnos por clase
-	maxband = 7 !Máximo de asignaturas por banda
+	maxband = 10 !Máximo de asignaturas por banda
+	cotmin : array(1..c) of integer !Cotas mínimas por asignatura
+	cotmax : array(1..c) of integer !Cotas máximas por asignatura
 	h : array(1..c) of integer !profesores por asignatura
 	x : array(1..f, 1..c, 1..b) of mpvar ! Será 1 si el alumno i da la asignatura j en la banda k. En otro caso será 0.
 	y : array(1..c, 1..b) of mpvar ! Será 1 si se se imparte la optativa j en la banda k.
 	a : array(1..f, 1..c) of integer ! Matriz con las preferencias de los alumnos
+	distribucion: array(1..c, 1..b) of real ! Matriz donde guardaremos el recuento posterior de alumnos por asignatura y banda.
+	asignaturas: array(1..f, 1..b) of real !Matriz donde guardamos las elecciones de los alumnos
 	objetivo : linctr
 end-declarations
 
 	!Introducimos los datos de preferencias de los alumnos
-	diskdata(ETC_IN,'preferenciasalum.txt',a)
+	diskdata(ETC_IN,'prefalum160.csv',a)
+	
 	
 	writeln('Matriz de preferencia: ')
 	forall(i in 1..f)do
 		forall(j in 1..c) write(a(i,j),' ')
 		writeln('')
 		end-do
+	writeln('')
 	
 	!Introducimos los datos sobre disponibilidad de profesores	
 	diskdata(ETC_IN,'profes.txt',h)
 	
 	writeln('Disponibilidad Horaria: ')
 	forall(j in 1..c) write(h(j), ' ')
+	writeln('')
+	writeln('')
+	
+	!Introducimos cotas mínimas y máximas:
+	diskdata(ETC_IN,"cotasmin.csv",cotmin)
+	diskdata(ETC_IN,"cotasmax.csv",cotmax)
 
 	!Declaración de tipo de variables
 	forall(j in 1..c, k in 1..b)do
@@ -46,19 +56,55 @@ end-declarations
 	forall(i in 1..f, j in 1..c, k in 1..b) x(i,j,k) <= y(j,k)
 	
 	!Restricción 4: Mínimo de alumnos que dan una asignatura en una banda si esta se imparte:
-	forall(j in 1..c, k in 1..b) minal*y(j,k) - sum(i in 1..f)x(i,j,k) <= 0
+	forall(j in 1..c, k in 1..b) cotmin(j)*y(j,k) - sum(i in 1..f)x(i,j,k) <= 0
 	
 	!Restricción 5: Máximo de alumnos que dan una asignatura en una banda si esta se imparte:
-	forall(j in 1..c, k in 1..b) maxal*h(j)*y(j,k) - sum(i in 1..f)x(i,j,k) >= 0
+	forall(j in 1..c, k in 1..b) cotmax(j)*h(j)*y(j,k) - sum(i in 1..f)x(i,j,k) >= 0
 	
 	!Restricción 6: Número máximo de asignaturas por banda:
 	forall(k in 1..b) sum(j in 1..c)y(j,k) <= maxband
 	
+	!Restricción 7: Si un alumno da una asignatura en una banda, no puede dar otra en esa misma banda:
+	forall(i in 1..f, k in 1..b) sum(j in 1..c)x(i,j,k) = 1
 	
-	
+	!Restricción 8: Maximo total de clases por asignatura.
+	!forall(j in 1..c) sum(y(j,k))<=h(j)
 
+	
+	!Optimizamos el problema
 	objetivo := sum(i in 1..f, j in 1..c, k in 1..b)a(i,j)*x(i,j,k)
 	maximise(objetivo)
 	
-
+	!Guardamos los recuentos en una matriz
+	forall(j in 1..c, k in 1..b) distribucion(j,k):= sum(i in 1..f)getsol(x(i,j,k))
+	
+	!Guardamos los resultados de los alumnos:
+	forall(i in 1..f, j in 1..c, k in 1..b) do
+		if (getsol(x(i,j,k)) = 1) 
+			then asignaturas(i,k):= j 
+		end-if
+	end-do
+	
+	!Mostramos resultados por pantalla:
+	writeln('Distribución de alumnos por bandas y asignaturas:')
+	forall(k in 1..b) do
+		writeln('Banda ' + k + ': ')
+		forall(j in 1..c) writeln('Asignatura '+ j + ': '+ getsol(distribucion(j,k)) + ',	')
+		writeln('')
+		writeln('')
+	end-do
+	writeln('Número de alumnos que cursan cada asignatura: ')
+	forall(j in 1..c) writeln('Asignatura ' + j + ': ' + sum(k in 1..b)getsol(distribucion(j,k)) + ',	')
+	
+	!Mostramos elección de alumnos
+	writeln('Listado alumnos: ')
+	forall(i in 1..f) do
+		writeln('Alumno '+i+':	')
+		forall(k in 1..b) write('Banda '+k+': '+getsol(asignaturas(i,k))+', ')
+		writeln('')
+	end-do
+	
+	diskdata(ETC_OUT, "solucion.csv", asignaturas)
+	diskdata(ETC_OUT, "alumasigsol.csv", distribucion)
+	
 end-model

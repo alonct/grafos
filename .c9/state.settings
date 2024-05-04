@@ -1,0 +1,311 @@
+{
+    "console": {
+        "@expanded": false,
+        "@height": 460,
+        "@maximized": "false",
+        "json()": {
+            "meta": {
+                "accessList": [
+                    "tab18",
+                    "tab5",
+                    "tab11"
+                ]
+            },
+            "name": "pane1",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab5",
+                    "path": "",
+                    "className": [
+                        "tab5"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714234594982
+                        },
+                        "filter": true,
+                        "title": "HorariosOpt/asignaturashor.mos - Stopped",
+                        "tooltip": "HorariosOpt/asignaturashor.mos - Stopped",
+                        "output": {
+                            "id": "output675610",
+                            "width": 0,
+                            "height": 0,
+                            "config": {
+                                "runner": "Mosel",
+                                "command": "HorariosOpt/asignaturashor.mos",
+                                "debug": false,
+                                "toolbar": true,
+                                "env": {},
+                                "name": ""
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab11",
+                    "path": "",
+                    "className": [
+                        "tab11"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714844445517
+                        },
+                        "filter": true,
+                        "title": "HorariosOpt/prueba.mos - Stopped",
+                        "tooltip": "HorariosOpt/prueba.mos - Stopped",
+                        "output": {
+                            "id": "output6176120",
+                            "width": 0,
+                            "height": 0,
+                            "config": {
+                                "runner": "Mosel",
+                                "command": "HorariosOpt/prueba.mos",
+                                "debug": false,
+                                "toolbar": true,
+                                "name": ""
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab18",
+                    "path": "",
+                    "className": [
+                        "tab18"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714860260446
+                        },
+                        "filter": true,
+                        "title": "asignaturashor.mos - Stopped",
+                        "tooltip": "asignaturashor.mos - Stopped",
+                        "output": {
+                            "id": "output1937530",
+                            "width": 0,
+                            "height": 0,
+                            "config": {
+                                "runner": "Mosel",
+                                "command": "asignaturashor.mos",
+                                "debug": false,
+                                "toolbar": true,
+                                "name": ""
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "ext": {
+        "counters": {
+            "@ace": 1,
+            "@acestatus": 1,
+            "@base-step-wizard": 2,
+            "@divider": 4,
+            "@document": 23,
+            "@editorswitch": 1,
+            "@fico.vdl.attributes-panel": 1,
+            "@fico.vdl.palette-panel": 1,
+            "@form": 4,
+            "@menu": 3,
+            "@menuitem": 8,
+            "@pane": 2,
+            "@session": 23,
+            "@tab": 20,
+            "@undoManager": 23,
+            "@welcome": 1
+        }
+    },
+    "findinfiles": {
+        "@console": "true",
+        "@matchcase": "false",
+        "@regex": "false",
+        "@scope": "selection",
+        "@wholeword": "false"
+    },
+    "local": {
+        "window": {
+            "@fullscreen": false,
+            "@maximized": true,
+            "@minimized": false,
+            "@position": "0:0",
+            "@size": "667:334"
+        }
+    },
+    "menus": {
+        "@minimized": "false"
+    },
+    "nak": {
+        "@installed": true
+    },
+    "od": {
+        "@last-run-config": "path:HorariosOpt/asignaturashor.mos"
+    },
+    "panecycle": {
+        "json()": [
+            "tab1",
+            "tab5"
+        ]
+    },
+    "panels": {
+        "@active-left": "tree",
+        "@active-right": "none",
+        "@width-left": 234,
+        "commands.panel": {
+            "@enabled": "false",
+            "@name": "commands.panel"
+        },
+        "debugger": {
+            "@enabled": "true",
+            "@name": "debugger"
+        },
+        "fico.ide.language.mosel.modules-panel": {
+            "@enabled": "true",
+            "@name": "fico.ide.language.mosel.modules-panel"
+        },
+        "fico.om.sidebar": {
+            "@enabled": "true",
+            "@name": "fico.om.sidebar"
+        },
+        "fico.vdl.attributes-panel0": {
+            "@enabled": "false",
+            "@name": "fico.vdl.attributes-panel0"
+        },
+        "fico.vdl.palette-panel0": {
+            "@enabled": "false",
+            "@name": "fico.vdl.palette-panel0"
+        },
+        "mosel.profiler": {
+            "@enabled": "true",
+            "@name": "mosel.profiler"
+        },
+        "navigate": {
+            "@enabled": "false",
+            "@name": "navigate"
+        },
+        "outline": {
+            "@enabled": "true",
+            "@name": "outline"
+        },
+        "tree": {
+            "@enabled": "true",
+            "@name": "tree"
+        }
+    },
+    "projecttree": {
+        "expanded": {
+            "json()": [
+                "/",
+                "/HorariosOpt/out",
+                "/HorariosOpt"
+            ]
+        }
+    },
+    "recentfiles": {
+        "json()": []
+    },
+    "tabs": {
+        "json()": {
+            "focus": "/HorariosOpt/asignaturashor.mos",
+            "meta": {
+                "accessList": [
+                    "tab1",
+                    "tab10",
+                    "tab13"
+                ]
+            },
+            "name": "pane0",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "/HorariosOpt/asignaturashor.mos",
+                    "className": [
+                        "tab1",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714860477542
+                        },
+                        "filter": true,
+                        "title": "asignaturashor.mos",
+                        "tooltip": "/HorariosOpt/asignaturashor.mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab10",
+                    "path": "/HorariosOpt/prueba.mos",
+                    "className": [
+                        "tab10"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714847649133
+                        },
+                        "filter": true,
+                        "title": "prueba.mos",
+                        "tooltip": "/HorariosOpt/prueba.mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab13",
+                    "path": "/HorariosOpt/prefalum160.csv",
+                    "className": [
+                        "tab13"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1714839251095
+                        },
+                        "filter": true,
+                        "title": "prefalum160.csv",
+                        "tooltip": "/HorariosOpt/prefalum160.csv",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "tree_selection": {
+        "json()": [
+            "/HorariosOpt/profes.txt"
+        ]
+    },
+    "welcome": {
+        "@first": true
+    }
+}

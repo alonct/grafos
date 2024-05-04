@@ -1,0 +1,17 @@
+model ModelName
+
+  uses "mmxprs", "mmsystem", "mmetc", "mmsheet"
+
+
+  declarations
+  
+    alumnos: set of string
+    asignaturas: set of string
+    preferencias: array(alumnos, asignaturas) of integer
+
+  end-declarations
+    
+    diskdata(ETC_IN, 'alumnos.csv', alumnos)
+    diskdata(ETC_IN, 'asignaturas.csv', asignaturas)
+
+end-model
